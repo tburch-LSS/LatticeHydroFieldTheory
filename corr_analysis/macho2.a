@@ -1,0 +1,9 @@
+BEGIN { pflag=0; cflag=0; }
+/AVERAGES/||/PROPAGATOR/{cflag=0}
+/COVARIANCE/{pflag=0}
+{
+if(pflag)prop[$1]=$2;
+if(cflag && $1==$2)printf("%d\t%e\t%e\n",$1,prop[$1],sqrt($3));
+}
+/AVERAGES/||/PROPAGATOR/{pflag=1}
+/COVARIANCE/{cflag=1}
